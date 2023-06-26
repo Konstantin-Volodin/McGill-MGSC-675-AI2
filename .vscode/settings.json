@@ -1,0 +1,18 @@
+{
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "python.formatting.provider": "none",
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "ls-4652f7754eade8c73cd94d7297e752d2f84e9b28.cuszrsizkfjr.ca-central-1.rds.amazonaws.com",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "database": "postgres",
+            "name": "coco_loco_database",
+            "username": "dbmasteruser"
+        }
+    ]
+}
