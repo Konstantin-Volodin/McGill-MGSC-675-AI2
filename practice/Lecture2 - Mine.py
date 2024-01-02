@@ -3,7 +3,7 @@ import numpy as np
 import seaborn as sns
 import math
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.metrics import mean_absolute_error, mean_squared_error, mean_absolute_percentage_error
 
 import torch
 import torch.nn as nn
@@ -109,10 +109,10 @@ model.eval()
 
 # Loop over the range of future predictions (fut_pred)
 for i in range(fut_pred):
-    
+
     # Prepare the sequence to feed into the model, it contains the last 'train_window' data points
     seq = torch.FloatTensor(test_inputs[-train_window:])
-    
+
     # torch.no_grad() impacts the autograd engine and deactivate it. It will reduce memory usage and
     # speed up computations but we won’t be able to perform backpropagation.
     # We don’t need gradients for validation/testing.
@@ -130,14 +130,19 @@ actual_predictions = scaler.inverse_transform(np.array(test_inputs[train_window:
 print('Finished prediction.')
 
 
-#%% FINAL ERROR
-
+# %% FINAL ERROR
 # Actual and predicted values
-actual = scaler.inverse_transform(np.array(data_normalized[train_window:] ).reshape(-1, 1))
+actual = scaler.inverse_transform(np.array(data_normalized[train_window:]).reshape(-1, 1))
 predicted = actual_predictions
+
+# %%
 # Calculate MAE and RMSE
-mae = mean_absolute_error(actual, predicted)
+mae = mean_absolute_error(actual[train_window:], predicted)
 rmse = math.sqrt(mean_squared_error(actual, predicted))
+mape = mean_absolute_percentage_error(actual, predicted)
+
 print(f'MAE: {mae:.2f}')
 print(f'RMSE: {rmse:.2f}')
-69/106 RNNs & Sequence Data Processing - Applications & Architectures of Deep Learning - MMA - Desautels Faculty of Management, McGill
+print(f'MAPE: {mape:.2f}')
+
+# %%
